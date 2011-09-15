@@ -6,7 +6,8 @@
     "keywords": ["cas", "central authentication service", "auth", "authentication", "central", "service"],
     "dependencies": {
         "xml2json": "0.2.x",
-        "request": "2.1.x"
+        "request": "2.1.x",
+        "pass": "0.1.x"
     },
     "main": "index",
     "engines": { "node": "0.4.x" }
