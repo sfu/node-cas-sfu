@@ -36,7 +36,7 @@ Several options are provided as defaults in the module but these can be overridd
 
 You can override any of these by providing your own values in the options object you pass to new CAS() or CAS#getMiddleware()
 
-Once a user has logged in, you will have an object containing information about the user (essentially, a JSON representation of the XML document returned by CAS). This object will be in either `req.authenticatedUser` or `req.session.authenticatedUser` (where `authenticatedUser` is whatever name you provided to the `userObject` option when you initialized the CAS client; `authenticatedUser` is the default). For example, if you initialized CAS with `allow: '!list-1,list-2'` and log in as user kipling, who is a member of "list-2", the `authenticatedUser` object will be:
+Once a user has logged in, you will have an object containing information about the user (essentially, a JSON representation of the XML document returned by CAS). This object will be in either `req.authenticatedUser` or `req.session.authenticatedUser` (where `authenticatedUser` is whatever name you provided to the `userObject` option when you initialized the CAS client; `authenticatedUser` is the default). For example, if you initialized CAS with `allow: '!list-1,!list-2'` and log in as user kipling, who is a member of "list-2", the `authenticatedUser` object will be:
 
     {
         user: 'kipling',
