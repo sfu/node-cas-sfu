@@ -23,6 +23,19 @@ node-cas-sfu supports CAS version 2 and *should* work with a vanilla CAS install
         }
     });
 
+Several options are provided as defaults in the module but these can be overridden (e.g. to authenticate against cas-test.sfu.ca instead of cas.sfu.ca):
+
+    defaults = {
+            casHost: 'https://cas.sfu.ca',
+            casBasePath: '/cgi-bin/WebObjects/cas.woa',
+            loginPath: '/wa/login',
+            logoutPath: '/wa/logout',
+            validatePath: '/wa/servicevalidate',
+            appLogoutPath: '/wa/applogout'
+    };
+
+You can override any of these by providing your own values in the options object you pass to new CAS() or CAS#getMiddleware()
+
 ## Usage in Connect/Express
 node-cas-sfu exposes a getMiddleware function to provide Express middleware:
 
