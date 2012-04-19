@@ -1,6 +1,6 @@
 {
-    "name": "cas",
     "version": "0.0.1",
+    "name": "cas-sfu",
     "author": "Graham Ballantyne <grahamb@sfu.ca>",
     "description": "Central Authentication Service (CAS) client Simon Fraser University's implementation of CAS",
     "keywords": ["cas", "central authentication service", "auth", "authentication"],
