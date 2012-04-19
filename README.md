@@ -7,7 +7,7 @@ node-cas-sfu supports CAS version 2 and *should* work with a vanilla CAS install
 * using non-SFU "Apache" accounts
 
 # Usage
-    var CAS = require('cas');
+    var CAS = require('cas-sfu');
     var cas = new CAS({
         serverBase: 'http://www.sfu.ca/myapp',  // REQUIRED; the base URL for your application
         allow: '!i-cat',                        // OPTIONAL; defaults to allow=sfu. See http://i.sfu.ca/MWkAlX for a full list of allow options
