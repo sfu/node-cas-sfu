@@ -3,6 +3,7 @@ node-cas-sfu is a [CAS](http://www.jasig.org/cas) client for [Node.js](http://no
 
 # Features
 node-cas-sfu supports CAS version 2 and *should* work with a vanilla CAS installation, though this has not been tested. It also supports SFU-specific extensions to CAS, such as:
+
 * the allow string
 * using non-SFU "Apache" accounts
 
@@ -88,9 +89,11 @@ You may find it useful to have the logged-in user's username appear in your Expr
     });
 
 No user logged in:
+
     127.0.0.1 - - [Thu, 19 Apr 2012 01:06:45 GMT] "GET /protected HTTP/1.1" 302 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1096.1 Safari/536.6"
 
 User logged in:
+
     127.0.0.1 - kipling [Thu, 19 Apr 2012 01:06:59 GMT] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1096.1 Safari/536.6"
 
 ## Using non-SFU (aka Apache) accounts
