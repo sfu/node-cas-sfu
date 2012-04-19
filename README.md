@@ -36,6 +36,15 @@ Several options are provided as defaults in the module but these can be overridd
 
 You can override any of these by providing your own values in the options object you pass to new CAS() or CAS#getMiddleware()
 
+Once a user has logged in, you will have an object containing information about the user (essentially, a JSON representation of the XML document returned by CAS). This object will be in either `req.authenticatedUser` or `req.session.authenticatedUser` (where `authenticatedUser` is whatever name you provided to the `userObject` option when you initialized the CAS client; `authenticatedUser` is the default). For example, if you initialized CAS with `allow: '!list-1,list-2'` and log in as user kipling, who is a member of "list-2", the `authenticatedUser` object will be:
+
+    {
+        user: 'kipling',
+        authtype: 'sfu',
+        maillist: 'list-2',
+        logindate: Thu, 19 Apr 2012 01:06:59 GMT    // a date object
+    }
+
 ## Usage in Connect/Express
 node-cas-sfu exposes a getMiddleware function to provide Express middleware:
 
@@ -64,6 +73,25 @@ node-cas-sfu exposes a getMiddleware function to provide Express middleware:
         req.session.AUTH_USER.logindate = new Date();
         res.redirect('/secretstuff');
     });
+
+You may find it useful to have the logged-in user's username appear in your Express log, similar to how AUTH_USER or REMOTE_USER appears in the default Apache common log. You can do this by defining a custom Express log token and a custom log format:
+
+    app.configure(function() {
+        express.logger.token('user', function(req, res) {
+            var user = '-';
+            if (req.session && req.session.AUTH_USER) {
+                user = req.session.AUTH_USER.user;
+            }
+            return user;
+        });
+        app.use(express.logger({format: ':remote-addr - :user [:date] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"'}));
+    });
+
+No user logged in:
+    127.0.0.1 - - [Thu, 19 Apr 2012 01:06:45 GMT] "GET /protected HTTP/1.1" 302 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1096.1 Safari/536.6"
+
+User logged in:
+    127.0.0.1 - kipling [Thu, 19 Apr 2012 01:06:59 GMT] "GET /favicon.ico HTTP/1.1" 404 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1096.1 Safari/536.6"
 
 ## Using non-SFU (aka Apache) accounts
 SFU's implementation of CAS allows users to authenticate with made-up, non-SFU accounts. These are often referred to as "Apache accounts" as they are most commonly used in Apache .htpasswd files via the [mod_auth_cas](http://www.sfu.ca/itservices/publishing/publish_howto/enhanced_web_publishing/cas/apache_module.html) Apache module. node-cas-sfu also supports Apache accounts; you can use them by setting `allow=apache` and including an `apacheUsers` object containing username & password hash pairs:
