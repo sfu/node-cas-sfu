@@ -11,5 +11,6 @@
         "pass": "0.1.x"
     },
     "main": "index",
-    "engines": { "node": "0.6.x" }
+    "engines": { "node": "0.6.x" },
+    "license": "MIT"
 }
