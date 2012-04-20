@@ -49,7 +49,7 @@ Once a user has logged in, you will have an object containing information about 
 ## Usage in Connect/Express
 node-cas-sfu exposes a getMiddleware function to provide Express middleware:
 
-    var cas = require('cas');
+    var cas = require('cas-sfu');
     var casauth = cas.getMiddleware({
         service: 'http://www.sfu.ca/myapp',
         allow: '!basket-weaving',
@@ -99,7 +99,7 @@ User logged in:
 ## Using non-SFU (aka Apache) accounts
 SFU's implementation of CAS allows users to authenticate with made-up, non-SFU accounts. These are often referred to as "Apache accounts" as they are most commonly used in Apache .htpasswd files via the [mod_auth_cas](http://www.sfu.ca/itservices/publishing/publish_howto/enhanced_web_publishing/cas/apache_module.html) Apache module. node-cas-sfu also supports Apache accounts; you can use them by setting `allow=apache` and including an `apacheUsers` object containing username & password hash pairs:
 
-    var CAS = require('cas');
+    var CAS = require('cas-sfu');
     var cas = new CAS({
         service: 'http://www.sfu.ca/myapp',
         allow: 'apache',
