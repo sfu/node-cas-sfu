@@ -109,6 +109,9 @@ SFU's implementation of CAS allows users to authenticate with made-up, non-SFU a
 
 Passwords can be any of UNIX crypt, SHA1, Apache MD5 or even plain text (but really, don't do plain text). node-cas-sfu uses the [pass](https://github.com/andris9/pass) module to validate hashes.
 
+# Tests
+Run `node test.js` or `npm test` to run the tests. The test script will prompt you for a valid SFU username & password (not recorded or stored anywhere) and will use those credentials to log into CAS via the REST interface, obtain a Service Ticket and attempt to validate that ticket. It will also attempt the same using a made-up "Apache" account (myfakeuser:pencil69).
+
 # License
 
 Copyright (C) 2012 Simon Fraser University
