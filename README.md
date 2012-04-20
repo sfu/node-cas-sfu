@@ -10,13 +10,13 @@ node-cas-sfu supports CAS version 2 and *should* work with a vanilla CAS install
 # Usage
     var CAS = require('cas-sfu');
     var cas = new CAS({
-        serverBase: 'http://www.sfu.ca/myapp',  // REQUIRED; the base URL for your application
-        allow: '!i-cat',                        // OPTIONAL; defaults to allow=sfu. See http://i.sfu.ca/MWkAlX for a full list of allow options
+        service: 'http://www.sfu.ca/myapp',     // REQUIRED; CAS will redirect back to this URL after a successful authentication
+        allow: '!basket-weaving',                        // OPTIONAL; comma-delimited string. Defaults to "sfu". See http://i.sfu.ca/MWkAlX for a full list of allow options
         userObject: 'AUTH_USER'                 // OPTIONAL; object where the CAS response will be stored. Defaults to 'authenticatedUser'
     });
 
     // validate a ticket:
-    cas.validate(req, ticket, function(err, loggedIn, casResponse) {
+    cas.validate(ticket, function(err, loggedIn, casResponse) {
         if (loggedIn) {
             console.log("Hello, you are logged in as %s", casResponse.user);
         } else {
@@ -51,18 +51,17 @@ node-cas-sfu exposes a getMiddleware function to provide Express middleware:
 
     var cas = require('cas');
     var casauth = cas.getMiddleware({
-        serverBase: 'http://www.sfu.ca/myapp',
-        allow: '!i-cat',
+        service: 'http://www.sfu.ca/myapp',
+        allow: '!basket-weaving',
         userObject: 'AUTH_USER'
     });
 
     var loggedin = function(req, res, next) {
         if ((req.session && req.session.AUTH_USER) || req.AUTH_USER) {
-            // user has an express session and is logged in
             next();
             return;
         }
-        // else, redirect to the login route
+        req.session.referer = req.url;  // store the referrer so we can send them back there after logging in
         res.redirect('/login');
     };
 
@@ -72,7 +71,8 @@ node-cas-sfu exposes a getMiddleware function to provide Express middleware:
 
     app.get('/login', casauth, function(req, res) {
         req.session.AUTH_USER.logindate = new Date();
-        res.redirect('/secretstuff');
+        console.log(req.session.AUTH_USER);
+        res.redirect(req.session.referer || '/');
     });
 
 You may find it useful to have the logged-in user's username appear in your Express log, similar to how AUTH_USER or REMOTE_USER appears in the default Apache common log. You can do this by defining a custom Express log token and a custom log format:
@@ -101,7 +101,7 @@ SFU's implementation of CAS allows users to authenticate with made-up, non-SFU a
 
     var CAS = require('cas');
     var cas = new CAS({
-        serverBase: 'http://www.sfu.ca/myapp',
+        service: 'http://www.sfu.ca/myapp',
         allow: 'apache',
         userObject: 'AUTH_USER',
         apacheUsers: {"myfakeuser": "ubjQPM.hh9Qj2"}
