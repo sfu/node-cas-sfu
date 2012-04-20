@@ -30,7 +30,7 @@ prompt.start();
 prompt.get(prompts, function(err, result) {
     request.post({
         uri: cas.options.casHost + cas.options.casBasePath + '/tickets',
-        body: 'username=' + result.username + '&password=' + result.password + '&service=' + cas.options.service + '&allow=' + cas.options.allow
+        body: 'username=' + result.username + '&password=' + result.password + '&service=' + cas.options.service + '&allow=sfu'
     }, function(err, response, body) {
         assert.equal(response.statusCode, 201);
         var ticketurl = cas.options.casHost + response.headers.location;
@@ -59,7 +59,9 @@ prompt.get(prompts, function(err, result) {
                         assert.equal(response.statusCode, 200);
                         cas.validate(ticket, function(err, loggedIn, casResponse) {
                             assert(loggedIn);
-                            assert.equal(casResponse.user, 'myfakeuser');
+                            cas.authenticateApacheUser(casResponse, function(err, loggedIn, casResponse) {
+                                assert(loggedIn);
+                            });
                         });
                     });
                 });
