@@ -43,7 +43,6 @@ Once a user has logged in, you will have an object containing information about 
         user: 'kipling',
         authtype: 'sfu',
         maillist: 'list-2',
-        logindate: Thu, 19 Apr 2012 01:06:59 GMT    // a date object
     }
 
 ## Usage in Connect/Express
