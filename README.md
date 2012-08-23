@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/sfu/node-cas-sfu.png)](http://travis-ci.org/sfu/node-cas-sfu)
 # node-cas-sfu
 node-cas-sfu is a [CAS](http://www.jasig.org/cas) client for [Node.js](http://nodejs.org), tailored to work with [Simon Fraser University's](http://www.sfu.ca/itservices/publishing/publish_howto/enhanced_web_publishing/cas.html) CAS implementation.
 
