@@ -4,10 +4,10 @@ var request = require('request')
 ,   url = require('url')
 ,   CAS = require('./index')
 ,   cas = new CAS({
-        service: 'casmoduletest',
+        service: 'xml.gateway',
         allow: 'sfu,apache',
         apacheUsers: {
-            myfakeuser: 'D4GoqtnYVr2fI' // pencil69
+            myfakeuseraasdsfasdfas: 'D4GoqtnYVr2fI' // pencil69
         }
     })
 ,   prompts = [
@@ -29,13 +29,13 @@ prompt.message = 'node-cas-sfu';
 prompt.start();
 prompt.get(prompts, function(err, result) {
     request.post({
-        uri: cas.options.casHost + cas.options.casBasePath + '/tickets',
+        uri: cas.options.casHost + cas.options.casBasePath + '/rest/v1/tickets',
         body: 'username=' + result.username + '&password=' + result.password + '&service=' + cas.options.service + '&allow=sfu'
     }, function(err, response, body) {
         assert.equal(response.statusCode, 201);
         var ticketurl = cas.options.casHost + response.headers.location;
         request.post({
-            uri: cas.options.casHost + response.headers.location,
+            uri: response.headers.location,
             body: 'service=' + cas.options.service
         }, function(err, response, ticket){
             assert.equal(response.statusCode, 200);
@@ -43,18 +43,17 @@ prompt.get(prompts, function(err, result) {
                 assert(loggedIn);
                 assert.equal(casResponse.user, result.username);
 
-                var apacheuser = 'myfakeuser'
+                var apacheuser = 'myfakeuseraasdsfasdfas'
                 ,   apachepass = 'pencil69';
 
                 request.post({
-                    uri: cas.options.casHost + cas.options.casBasePath + '/tickets',
+                    uri: cas.options.casHost + cas.options.casBasePath + '/rest/v1/tickets',
                     body: 'username=' + apacheuser + '&password=' + apachepass + '&service=' + cas.options.service + '&allow=' + cas.options.allow
                 }, function(err, response, body) {
                     assert.equal(response.statusCode, 201);
-                    var ticketurl = cas.options.casHost + response.headers.location;
                     request.post({
-                        uri: cas.options.casHost + response.headers.location,
-                        body: 'service=' + cas.options.service
+                        uri: response.headers.location,
+                        body: 'service=' + cas.options.service + '&allow=' + cas.options.allow
                     }, function(err, response, ticket){
                         assert.equal(response.statusCode, 200);
                         cas.validate(ticket, function(err, loggedIn, casResponse) {
