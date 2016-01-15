@@ -1,6 +1,6 @@
 {
     "name": "cas-sfu",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "author": "Graham Ballantyne <grahamb@sfu.ca>",
     "description": "CAS client for Simon Fraser University's CAS implementation",
     "keywords": ["cas", "central authentication service", "auth", "authentication"],
@@ -26,6 +26,5 @@
         "test": "node test.js"
     },
     "main": "index",
-    "engines": { "node": "0.6.x" },
     "license": "MIT"
 }
